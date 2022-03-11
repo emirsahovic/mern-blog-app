@@ -32,4 +32,19 @@ const createPost = asyncHandler(async (req, res, next) => {
     res.status(201).json(newPost);
 })
 
-export { getPosts, createPost }
+
+// @desc    Get post by id
+// @method  GET /api/posts/:postId
+// @access  Private
+const getPostById = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+        res.status(404);
+        throw new Error('Post not found');
+    }
+
+    res.status(200).json(post);
+})
+
+export { getPosts, createPost, getPostById }
