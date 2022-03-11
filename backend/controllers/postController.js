@@ -136,4 +136,68 @@ const unlikePost = asyncHandler(async (req, res, next) => {
     res.status(200).json(post.likes);
 })
 
-export { getPosts, createPost, getPostById, deletePost, updatePost, likePost, unlikePost }
+// @route POST api/posts/comment/:postId
+// @desc Comment on a post
+// @access Private
+const addComment = asyncHandler(async (req, res, next) => {
+    const user = await User.findById(req.user.id).select('-password');
+    const post = await Post.findById(req.params.postId);
+
+    const { text } = req.body;
+
+    if (!text) {
+        res.status(400);
+        throw new Error('Please provide text');
+    }
+
+    if (!post) {
+        res.status(400);
+        throw new Error('Post not found');
+    }
+
+    const newComment = {
+        text,
+        name: user.name,
+        user: req.user.id
+    };
+
+    post.comments.unshift(newComment);
+
+    await post.save();
+
+    res.status(200).json(post.comments);
+})
+
+// @route DELETE api/posts/comment/:postId/:commentId
+// @desc Delete comment
+// @access Private
+const deleteComment = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+        res.status(400);
+        throw new Error('Post not found');
+    }
+
+    const comment = post.comments.find(comment => comment.id === req.params.commentId);
+
+    if (!comment) {
+        res.status(404);
+        throw new Error('Comment does not exist');
+    }
+
+    if (comment.user.toString() !== req.user.id) {
+        res.status(401);
+        throw new Error('User not authorized');
+    }
+
+    const removeIndex = post.comments.map(comment => comment.user.toString()).indexOf(req.user.id);
+
+    post.comments.splice(removeIndex, 1);
+
+    await post.save();
+
+    res.json(post.comments);
+})
+
+export { getPosts, createPost, getPostById, deletePost, updatePost, likePost, unlikePost, addComment, deleteComment }
