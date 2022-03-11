@@ -1,19 +1,27 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts } from "../features/post/postSlice";
+import Spinner from "../components/Spinner";
+import PostItem from "../components/PostItem";
 
 const Dashboard = () => {
-    const { posts, isLoading, isSuccess, isError, msg } = useSelector(state => state.post);
+    const { posts, isLoading } = useSelector(state => state.post);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPosts());
     }, [])
 
+    console.log(posts);
+
+    if (isLoading) {
+        return <Spinner />
+    }
+
     return (
-        <div>
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mx-auto container justify-center items-center gap-6">
             {posts.map(post => (
-                <h1>{post.text}</h1>
+                <PostItem key={post._id} post={post} />
             ))}
         </div>
     )
