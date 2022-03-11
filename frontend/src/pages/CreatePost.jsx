@@ -17,7 +17,9 @@ const CreatePost = () => {
         setTitle('');
         setText('');
 
-        navigate('/dashboard')
+        setTimeout(() => {
+            navigate('/dashboard')
+        }, 130);
     }
 
     return (

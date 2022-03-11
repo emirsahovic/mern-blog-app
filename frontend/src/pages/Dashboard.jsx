@@ -12,8 +12,6 @@ const Dashboard = () => {
         dispatch(getPosts());
     }, [])
 
-    console.log(posts);
-
     if (isLoading) {
         return <Spinner />
     }
