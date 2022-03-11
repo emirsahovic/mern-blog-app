@@ -3,7 +3,7 @@ import postService from './postService';
 
 const initialState = {
     posts: [],
-    post: null,
+    post: {},
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -13,6 +13,16 @@ const initialState = {
 export const getPosts = createAsyncThunk('auth/getAll', async (_, thunkAPI) => {
     try {
         return await postService.getPosts();
+    } catch (error) {
+        const msg = (error.response && error.response.data && error.response.data.msg) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(msg);
+    }
+})
+
+export const getPost = createAsyncThunk('auth/getOne', async (id, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await postService.getPost(id, token);
     } catch (error) {
         const msg = (error.response && error.response.data && error.response.data.msg) || error.message || error.toString();
         return thunkAPI.rejectWithValue(msg);
@@ -79,6 +89,19 @@ export const postSlice = createSlice({
                 state.posts = state.posts.filter(post => post._id !== action.payload._id);
             })
             .addCase(deletePost.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.msg = action.payload
+            })
+            .addCase(getPost.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getPost.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.post = action.payload
+            })
+            .addCase(getPost.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.msg = action.payload

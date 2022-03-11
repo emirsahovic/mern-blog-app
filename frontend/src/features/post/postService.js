@@ -7,6 +7,16 @@ const getPosts = async () => {
     return res.data;
 }
 
+const getPost = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const res = await axios.get(API_URL + id, config);
+    return res.data;
+}
+
 const createPost = async (postData, token) => {
     const config = {
         headers: {
@@ -30,7 +40,8 @@ const deletePost = async (id, token) => {
 const postService = {
     getPosts,
     createPost,
-    deletePost
+    deletePost,
+    getPost
 }
 
 export default postService;

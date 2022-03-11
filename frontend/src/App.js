@@ -7,6 +7,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import CreatePost from "./pages/CreatePost";
+import Post from "./pages/Post";
 
 function App() {
   const { user } = useSelector(state => state.auth);
@@ -20,6 +21,7 @@ function App() {
           <Route path='/login' element={user ? <Navigate to='/dashboard' /> : <Login />} />
           <Route path='/dashboard' element={user ? <Dashboard /> : <Navigate to='/login' />} />
           <Route path='/create-post' element={user ? <CreatePost /> : <Navigate to='/login' />} />
+          <Route path='/post/:postId' element={user ? <Post /> : <Navigate to='/login' />} />
         </Routes>
       </Router>
       <ToastContainer />
