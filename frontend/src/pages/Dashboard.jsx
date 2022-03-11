@@ -17,7 +17,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="grid px-28 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 mx-auto container justify-center items-center gap-6">
+        <div className="grid px-28 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 mx-auto container justify-center items-center gap-6">
             {posts.map(post => (
                 <PostItem key={post._id} post={post} />
             ))}

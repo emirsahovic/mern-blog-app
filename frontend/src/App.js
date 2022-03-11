@@ -16,8 +16,8 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path='/' element={<Register />} />
-          <Route path='/login' element={<Login />} />
+          <Route path='/' element={user ? <Navigate to='/dashboard' /> : <Register />} />
+          <Route path='/login' element={user ? <Navigate to='/dashboard' /> : <Login />} />
           <Route path='/dashboard' element={user ? <Dashboard /> : <Navigate to='/login' />} />
           <Route path='/create-post' element={user ? <CreatePost /> : <Navigate to='/login' />} />
         </Routes>
