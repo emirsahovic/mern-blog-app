@@ -88,4 +88,52 @@ const updatePost = asyncHandler(async (req, res, next) => {
     res.status(200).json(updatedPost);
 })
 
-export { getPosts, createPost, getPostById, deletePost, updatePost }
+// @route PUT api/posts/like/:postId
+// @desc Like a post
+// @access Private
+const likePost = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+        res.status(400);
+        throw new Error('Post not found');
+    }
+
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length > 0) {
+        res.status(400);
+        throw new Error('Post already liked');
+    }
+
+    post.likes.unshift({ user: req.user.id });
+
+    await post.save();
+
+    res.status(200).json(post.likes);
+})
+
+// @route PUT api/posts/unlike/:postId
+// @desc Unike a post
+// @access Private
+const unlikePost = asyncHandler(async (req, res, next) => {
+    const post = await Post.findById(req.params.postId);
+
+    if (!post) {
+        res.status(400);
+        throw new Error('Post not found');
+    }
+
+    if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
+        res.status(400);
+        throw new Error('Post has not yet been liked');
+    }
+
+    const removeIndex = post.likes.map(like => like.user.toString()).indexOf(req.user.id);
+
+    post.likes.splice(removeIndex, 1);
+
+    await post.save();
+
+    res.status(200).json(post.likes);
+})
+
+export { getPosts, createPost, getPostById, deletePost, updatePost, likePost, unlikePost }
