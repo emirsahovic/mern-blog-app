@@ -21,7 +21,8 @@ const Navbar = () => {
                             <h2 className="text-white font-bold text-xl mr-2">Blog</h2>
                             <FaBlogger className='text-3xl text-white pt-1' />
                         </Link>
-                        <div className='flex space-x-8'>
+                        <div className='flex space-x-8 items-center'>
+                            <p className='text-white font-bold'>Hello, {user.name} |</p>
                             <button onClick={onLogout} className='text-white font-semibold text-lg flex items-center hover:opacity-75'>
                                 <FaSignOutAlt className='mr-2' /> Logout
                             </button>
