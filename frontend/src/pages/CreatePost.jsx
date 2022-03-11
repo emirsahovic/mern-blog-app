@@ -1,14 +1,22 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createPost } from "../features/post/postSlice";
+import { toast } from 'react-toastify';
 
 const CreatePost = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { isError, msg } = useSelector(state => state.post);
 
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(msg);
+        }
+    }, [isError, msg])
 
     const onSubmit = (e) => {
         e.preventDefault();

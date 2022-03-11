@@ -16,7 +16,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-sky-500 p-4">
-            <div className="container mx-auto flex items-center justify-between flex-wrap ">
+            <div className="container mx-auto px-20 flex items-center justify-between flex-wrap ">
                 {user ? (
                     <>
                         <Link to='/dashboard' className='flex items-center'>
