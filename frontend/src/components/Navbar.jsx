@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
 import { FaSignOutAlt, FaSignInAlt, FaUser, FaBlogger } from 'react-icons/fa';
+import { MdOutlinePostAdd } from 'react-icons/md';
+import { BsCardList } from 'react-icons/bs';
 
 const Navbar = () => {
     const { user } = useSelector(state => state.auth);
@@ -22,9 +24,16 @@ const Navbar = () => {
                             <FaBlogger className='text-3xl text-white pt-1' />
                         </Link>
                         <div className='flex space-x-8 items-center'>
-                            <p className='text-white font-bold'>Hello, {user.name} |</p>
+                            <Link to='/create-post' className='flex items-center hover:opacity-75'>
+                                <h2 className="text-white text-lg font-bold mr-2">Add Post</h2>
+                                <MdOutlinePostAdd className='text-3xl text-white' />
+                            </Link>
+                            <Link to='/dashboard' className='flex items-center hover:opacity-75'>
+                                <h2 className="text-white text-lg font-bold mr-2">View Posts</h2>
+                                <BsCardList className='text-2xl text-white' />
+                            </Link>
                             <button onClick={onLogout} className='text-white font-semibold text-lg flex items-center hover:opacity-75'>
-                                <FaSignOutAlt className='mr-2' /> Logout
+                                <FaSignOutAlt className='mr-2' /> <span className='text-white text-lg font-bold'>Logout</span>
                             </button>
                         </div>
                     </>
