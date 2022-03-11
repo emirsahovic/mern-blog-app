@@ -26,6 +26,7 @@ const createPost = asyncHandler(async (req, res, next) => {
     const newPost = await Post.create({
         title,
         text,
+        imageUrl,
         name: user.name,
         user: req.user.id
     })
