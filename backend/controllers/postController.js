@@ -14,16 +14,17 @@ const getPosts = asyncHandler(async (req, res, next) => {
 // @method  POST /api/posts
 // @access  Private
 const createPost = asyncHandler(async (req, res, next) => {
-    const { text } = req.body;
+    const { title, text } = req.body;
 
-    if (!text) {
+    if (!title || !text) {
         res.status(400);
-        throw new Error('Please provide text for post');
+        throw new Error('Please provide title and text for post');
     }
 
     const user = await User.findById(req.user.id).select('-password');
 
     const newPost = await Post.create({
+        title,
         text,
         name: user.name,
         user: req.user.id
