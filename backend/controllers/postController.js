@@ -14,11 +14,11 @@ const getPosts = asyncHandler(async (req, res, next) => {
 // @method  POST /api/posts
 // @access  Private
 const createPost = asyncHandler(async (req, res, next) => {
-    const { title, text } = req.body;
+    const { title, text, imageUrl } = req.body;
 
-    if (!title || !text) {
+    if (!title || !text || !imageUrl) {
         res.status(400);
-        throw new Error('Please provide title and text for post');
+        throw new Error('Please provide title, text and image url for post');
     }
 
     const user = await User.findById(req.user.id).select('-password');
