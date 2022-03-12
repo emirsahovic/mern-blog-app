@@ -59,6 +59,16 @@ export const addLike = createAsyncThunk('auth/addLike', async (id, thunkAPI) => 
     }
 })
 
+export const removeLike = createAsyncThunk('auth/removeLike', async (id, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token;
+        return await postService.removeLike(id, token);
+    } catch (error) {
+        const msg = (error.response && error.response.data && error.response.data.msg) || error.message || error.toString();
+        return thunkAPI.rejectWithValue(msg);
+    }
+})
+
 export const postSlice = createSlice({
     name: 'post',
     initialState,
@@ -90,9 +100,6 @@ export const postSlice = createSlice({
                 state.isSuccess = true
                 state.posts = [...state.posts, action.payload]
             })
-            .addCase(deletePost.pending, (state) => {
-                state.isLoading = true
-            })
             .addCase(deletePost.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
@@ -122,6 +129,16 @@ export const postSlice = createSlice({
                 state.posts = state.posts.map(post => post._id === action.payload.id ? { ...post, likes: action.payload.likes } : post)
             })
             .addCase(addLike.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.msg = action.payload
+            })
+            .addCase(removeLike.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.posts = state.posts.map(post => post._id === action.payload.id ? { ...post, likes: action.payload.likes } : post)
+            })
+            .addCase(removeLike.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.msg = action.payload

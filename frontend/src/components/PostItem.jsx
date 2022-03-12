@@ -3,8 +3,8 @@ import { FaWindowClose } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { deletePost } from '../features/post/postSlice';
 import { Link } from 'react-router-dom';
-import { addLike } from '../features/post/postSlice';
-import { AiFillLike } from 'react-icons/ai';
+import { addLike, removeLike } from '../features/post/postSlice';
+import { AiFillLike, AiFillDislike } from 'react-icons/ai';
 
 const PostItem = ({ post }) => {
     const { user } = useSelector(state => state.auth);
@@ -29,6 +29,9 @@ const PostItem = ({ post }) => {
                         <h3 className='pt-1'>{post.likes.length}</h3>
                     )}
                 </span>
+                <button className='ml-3'>
+                    <AiFillDislike onClick={() => dispatch(removeLike(post._id))} className='mt-1 text-2xl text-sky-500 mr-1 cursor-pointer' />
+                </button>
             </div>
         </div>
     )

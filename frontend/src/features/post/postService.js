@@ -50,12 +50,26 @@ const addLike = async (id, token) => {
     return { id, likes: res.data }
 }
 
+const removeLike = async (id, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    let data = {}
+    const res = await axios.put(`/api/posts/unlike/${id}`, data, config);
+
+    return { id, likes: res.data }
+}
+
 const postService = {
     getPosts,
     createPost,
     deletePost,
     getPost,
-    addLike
+    addLike,
+    removeLike
 }
 
 export default postService;
