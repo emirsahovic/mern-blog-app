@@ -62,3 +62,9 @@ https://documenter.getpostman.com/view/18219208/UVsJvRpU
 │   tailwind.config.js
 └───node_modules
 ```
+
+# Built With
+- MERN stack (MongoDB, Express.js, React.js, Node.js)
+- Redux Toolkit
+- TailwindCSS
+
