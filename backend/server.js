@@ -5,10 +5,15 @@ import { connectDB } from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import postRoutes from './routes/postRoutes.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:3000'
+}));
 
 connectDB();
 
