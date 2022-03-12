@@ -4,6 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { registerUser, reset } from '../features/auth/authSlice';
+import { GrFormView } from 'react-icons/gr';
 import Spinner from '../components/Spinner';
 
 const Register = () => {
@@ -16,6 +17,8 @@ const Register = () => {
 
     const { name, email, password, password2 } = formData;
     const { isLoading, isSuccess, isError, msg } = useSelector(state => state.auth);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -97,23 +100,31 @@ const Register = () => {
                             </div>
                             <div className="mt-4">
                                 <label className="block">Password</label>
-                                <input type="password" placeholder="Password"
-                                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                    name="password"
-                                    value={password}
-                                    onChange={onChange}
-                                    required
-                                />
+                                <div className='relative'>
+                                    <input type={showPassword ? 'text' : 'password'}
+                                        placeholder="Password"
+                                        className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                        name="password"
+                                        value={password}
+                                        onChange={onChange}
+                                        required
+                                    />
+                                    <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowPassword(prevState => !prevState)} />
+                                </div>
                             </div>
                             <div className="mt-4">
                                 <label className="block">Confirm Password</label>
-                                <input type="password" placeholder="Password"
-                                    className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500"
-                                    name="password2"
-                                    value={password2}
-                                    onChange={onChange}
-                                    required
-                                />
+                                <div className='relative'>
+                                    <input type={showConfirmPassword ? 'text' : 'password'}
+                                        placeholder="Password"
+                                        className="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500"
+                                        name="password2"
+                                        value={password2}
+                                        onChange={onChange}
+                                        required
+                                    />
+                                    <GrFormView className='absolute text-3xl bottom-1 right-3 cursor-pointer' onClick={() => setShowConfirmPassword(prevState => !prevState)} />
+                                </div>
                             </div>
                             <div className="flex">
                                 <button type='submit' className="w-full px-6 py-2 mt-4 text-white bg-sky-500 rounded-lg hover:bg-teal-700 transition duration-200">
