@@ -3,6 +3,8 @@ import { FaWindowClose } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { deletePost } from '../features/post/postSlice';
 import { Link } from 'react-router-dom';
+import { addLike } from '../features/post/postSlice';
+import { AiFillLike } from 'react-icons/ai';
 
 const PostItem = ({ post }) => {
     const { user } = useSelector(state => state.auth);
@@ -20,6 +22,14 @@ const PostItem = ({ post }) => {
                     <FaWindowClose />
                 </button>}
             <Link to={`/post/${post._id}`} className='absolute bottom-24 right-12 bg-sky-500 font-bold text-white px-3 py-2 rounded'>Read More</Link>
+            <div className='flex items-center'>
+                <AiFillLike onClick={() => dispatch(addLike(post._id))} className='text-2xl text-sky-500 mr-1 cursor-pointer' />
+                <span className='text-lg'>
+                    {post.likes.length > 0 && (
+                        <h3 className='pt-1'>{post.likes.length}</h3>
+                    )}
+                </span>
+            </div>
         </div>
     )
 }
